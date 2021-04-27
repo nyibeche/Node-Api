@@ -8,19 +8,19 @@ pipeline {
     stages {
         stage('clone down NodeJs repo') {
             steps {
-                git branch: 'master',
-                    credentialsId: 'todo-node',
-                        url: 'git@github.com:department-of-veterans-affairs/va-todo-api-node-example.git'
+                git branch: '',
+                    credentialsId: '',
+                        url: 'git@github.com:nyibeche/Node-Api.git'
         }
     
      }
      stage('Code Quality') {
          steps {
              script {
-                 def scannerHome = tool 'Vasonarscanner';
-                 withSonarQubeEnv = 'VaSonarqubeserver'; 
+                 def scannerHome = tool 'testsonarscanner';
+                 withSonarQubeEnv = 'testSonarqubeserver'; 
                  sh """
-                 ${tool("Vasonarscanner")}/bin/sonar-scanner
+                 ${tool("testsonarscanner")}/bin/sonar-scanner
                  """
              }
          }
@@ -50,7 +50,7 @@ pipeline {
       stage('Push tarFile to s3 bucket') {
          steps {
              sh """
-              aws s3 cp $WORKSPACE/nodejs.tar.gz s3://nodejstodo
+              aws s3 cp $WORKSPACE/nodejs.tar.gz s3://cornel-nodejstodo
               """
          }
       }
